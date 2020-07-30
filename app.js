@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -30,13 +32,9 @@ const db = require('./config/keys').mongoURI;
 const user = require('./config/keys').user;
 const pass = require('./config/keys').pwd;
  
-//clinica
-//ClinicaPasswd
-// mongodb+srv://clinica:<password>@cluster0-rmsvc.mongodb.net/<dbname>?retryWrites=true&w=majority
-
-const MONGODB_URI = 'mongodb+srv://clinica:ClinicaPasswd@cluster0-rmsvc.mongodb.net/db?retryWrites=true&w=majority'
-
-mongoose.connect(MONGODB_URI , {
+mongoose.connect(
+    process.env.MONGO_URL,
+    {
         useNewUrlParser: true,
         useCreateIndex: true
     }).then(() => {
@@ -62,7 +60,7 @@ const figures = require('./routes/api/figures')
 app.use('/api/figures', figures)
 
 
-const port = process.env.port || 5000;
+const port = process.env.APP_URL || 3000;
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
